@@ -1,0 +1,6 @@
+@DotriStack.AuthCenter.ApiHost_HostAddress = http://localhost:5062
+
+GET {{DotriStack.AuthCenter.ApiHost_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
