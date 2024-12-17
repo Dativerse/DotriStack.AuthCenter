@@ -1,4 +1,4 @@
-namespace DotriStack.AuthCenter.AppHost.Tests.Tests
+namespace DotriStack.AuthCenter.ApiHost.Integration.Tests.Tests
 {
     public class IntegrationTest1
     {
