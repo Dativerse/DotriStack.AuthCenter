@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DotriStack.AuthCenter.Presentation.MvcControllers
 {
-    internal class SiteController
+    public class SiteController
     {
+
     }
 }
