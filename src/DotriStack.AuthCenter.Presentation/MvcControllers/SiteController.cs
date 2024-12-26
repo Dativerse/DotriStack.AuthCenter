@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DotriStack.AuthCenter.Presentation.MvcControllers
 {
-    public class SiteController
+    public class SiteController : ControllerBase
     {
 
     }
