@@ -1,0 +1,103 @@
+﻿$button-height: 32px;
+$btnSubmit-background: #f05b1f;
+$btnCancelBackground: #757985;
+
+%buttonDisabled {
+    background-color: #DFDFDF !important;
+    box-shadow: none;
+    color: #9F9F9F !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+.btn {
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    height: $button-height;
+    line-height: $button-height;
+    transition: none;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: inline-block;
+    outline: 0;
+    padding: 0 2rem;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:disabled {
+        @extend %buttonDisabled;
+    }
+}
+
+.btn-submit {
+    color: $white;
+    background-color: rgb(240, 91, 31);
+}
+
+.btn-cancel {
+    color: $white;
+    background-color: $btnCancelBackground;
+}
+
+.btn-back {
+    background: #4c6375;
+    color: #fff;
+    margin-bottom: 5px;
+
+    &:hover {
+        background: lighten(#4c6375, 10%);
+    }
+
+    .icon-arrow {
+        font-size: 12px;
+        margin-right: 10px;
+        transform: rotate(90deg);
+        color: inherit;
+    }
+}
+
+button {
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        @extend %buttonDisabled;
+    }
+
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+.close {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+
+    &:hover {
+        color: #000;
+        text-decoration: none;
+    }
+}
+
+button.close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+

@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>05dbb881-ca29-4c7b-a7b0-62731ff17326</UserSecretsId>
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\aspire\DotriStack.AuthCenter.ServiceDefaults\DotriStack.AuthCenter.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\DotriStack.AuthCenter.Core\DotriStack.AuthCenter.Core.csproj" />
   </ItemGroup>
 
 </Project>
