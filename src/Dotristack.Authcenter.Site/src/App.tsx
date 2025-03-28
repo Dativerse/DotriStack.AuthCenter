@@ -14,7 +14,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-background">
-        <Routes>z
+        <Routes>
           <Route
             path="/"
             element={
