@@ -1,21 +1,34 @@
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
-interface TermsFormInputs {
-  agree: boolean;
-  thirdPartyAccess: boolean;
-}
+import { useAuth } from "@/hooks/useAuth";
+import { TermsAndConditionsFormData } from "@/types/forms";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function TermsAndConditionsForm() {
+  const { useAcceptTerms } = useAuth();
+  const acceptTerms = useAcceptTerms();
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TermsFormInputs>();
+  } = useForm<TermsAndConditionsFormData & { thirdPartyAccess: boolean }>();
 
-  const onSubmit = (data: TermsFormInputs) => {
-    console.log("User agreements:", data);
+  const onSubmit = async (
+    data: TermsAndConditionsFormData & { thirdPartyAccess: boolean }
+  ) => {
+    try {
+      setError("");
+      await acceptTerms.mutateAsync({ accepted: data.accepted });
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Failed to accept terms. Please try again.");
+      console.error("Terms acceptance failed:", err);
+    }
   };
 
   return (
@@ -28,24 +41,34 @@ export default function TermsAndConditionsForm() {
           Please review and accept to continue
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+          {error && (
+            <div className="text-red-500 text-sm text-center">{error}</div>
+          )}
           <div className="border p-4 rounded bg-gray-100 text-sm text-gray-700">
             By using this service, you agree to our Terms and Conditions. Please
             read them carefully.
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox
-              id="agree"
-              {...register("agree", { required: "You must agree to continue" })}
+              id="accepted"
+              {...register("accepted", {
+                required: "You must agree to continue",
+              })}
+              disabled={acceptTerms.isPending}
             />
-            <label htmlFor="agree" className="text-sm text-gray-700">
+            <label htmlFor="accepted" className="text-sm text-gray-700">
               I agree to the Terms and Conditions
             </label>
           </div>
-          {errors.agree && (
-            <p className="text-red-500 text-xs">{errors.agree.message}</p>
+          {errors.accepted && (
+            <p className="text-red-500 text-xs">{errors.accepted.message}</p>
           )}
           <div className="flex items-center space-x-2">
-            <Checkbox id="thirdPartyAccess" {...register("thirdPartyAccess")} />
+            <Checkbox
+              id="thirdPartyAccess"
+              {...register("thirdPartyAccess")}
+              disabled={acceptTerms.isPending}
+            />
             <label htmlFor="thirdPartyAccess" className="text-sm text-gray-700">
               I allow third-party services to access my data
             </label>
@@ -53,8 +76,9 @@ export default function TermsAndConditionsForm() {
           <Button
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md"
+            disabled={acceptTerms.isPending}
           >
-            Continue
+            {acceptTerms.isPending ? "Processing..." : "Continue"}
           </Button>
         </form>
       </div>

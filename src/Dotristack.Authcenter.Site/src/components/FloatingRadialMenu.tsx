@@ -1,13 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  LogIn,
-  UserPlus,
-  Shield,
-  FileText,
-    Key,
-    Menu,
-  X
-} from "lucide-react";
+import { LogIn, UserPlus, Shield, FileText, Key, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -17,11 +9,28 @@ interface Position {
   y: number;
 }
 
-interface MenuItem {
+interface MenuItemState {
+  isAuthenticated?: boolean;
+  isNewUser?: boolean;
+  requiresEmail?: boolean;
+  isVerificationRequired?: boolean;
+  isRequired?: boolean;
+  timestamp?: number;
+  token?: string;
+  otpExpiryTime?: number;
+  otpType?: "email" | "phone" | "2fa";
+  otpLength?: number;
+  otpAttempts?: number;
+  email?: string;
+  otp?: string;
+}
+
+interface MenuItem<T extends MenuItemState = MenuItemState> {
   icon: React.ReactNode;
   label: string;
   id: string;
   path: string;
+  state?: T;
 }
 
 const FloatingRadialMenu: React.FC = () => {
@@ -58,8 +67,8 @@ const FloatingRadialMenu: React.FC = () => {
     }
   };
 
-  const navigateTo = (path: string): void => {
-    navigate(path);
+  const navigateTo = (path: string, state?: MenuItemState): void => {
+    navigate(path, { state });
     setIsOpen(false);
   };
 
@@ -155,25 +164,51 @@ const FloatingRadialMenu: React.FC = () => {
   }, [isDragging]);
 
   const menuItems: MenuItem[] = [
-    { icon: <LogIn size={20} />, label: "Login", id: "login", path: "/login" },
+    {
+      icon: <LogIn size={20} />,
+      label: "Login",
+      id: "login",
+      path: "/login",
+      state: { isAuthenticated: false },
+    },
     {
       icon: <UserPlus size={20} />,
       label: "Register",
       id: "register",
       path: "/register",
+      state: { isNewUser: true },
     },
     {
       icon: <Key size={20} />,
       label: "Reset Password",
       id: "reset-password",
       path: "/reset-password",
+      state: {
+        requiresEmail: true,
+        timestamp: Date.now(),
+        otp: "Dummy Otp",
+        email: "DummyEmail@gmail.com",
+      },
     },
-    { icon: <Shield size={20} />, label: "OTP", id: "otp", path: "/otp" },
+    {
+      icon: <Shield size={20} />,
+      label: "OTP",
+      id: "otp",
+      path: "/otp",
+      state: {
+        isVerificationRequired: true,
+        otpType: "email",
+        otpLength: 6,
+        otpExpiryTime: Date.now() + 5 * 60 * 1000, // 5 minutes expiry
+        otpAttempts: 0,
+      },
+    },
     {
       icon: <FileText size={20} />,
       label: "Terms",
       id: "terms",
       path: "/terms-and-conditions",
+      state: { isRequired: true },
     },
   ];
 
@@ -241,7 +276,7 @@ const FloatingRadialMenu: React.FC = () => {
                 size="icon"
                 variant={isActive ? "default" : "secondary"}
                 className="h-12 w-12 rounded-full group relative shadow-md"
-                onClick={() => navigateTo(item.path)}
+                onClick={() => navigateTo(item.path, item.state)}
                 aria-label={item.label}
               >
                 {item.icon}
