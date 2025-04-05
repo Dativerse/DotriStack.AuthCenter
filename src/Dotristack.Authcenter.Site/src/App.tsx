@@ -9,6 +9,7 @@ import RegisterForm from "./pages/RegisterForm";
 import ResetPasswordForm from "./pages/ResetPasswordForm";
 import TermsAndConditionsForm from "./pages/TermsAndConditionsForm";
 import NotFound from "./pages/NotFound";
+import envConfig from "./config/env.config";
 
 const App: React.FC = () => {
   return (
@@ -19,10 +20,10 @@ const App: React.FC = () => {
             path="/"
             element={
               <WelcomePage
-                orgName="DoTriStack"
-                userName="Loki"
-                userEmail="Dativerse@gmail.com"
-                userRole="Administrator"
+                orgName={envConfig.AppName}
+                userName={envConfig.Username}
+                userEmail={envConfig.UserEmail}
+                userRole={envConfig.UserRole}
               />
             }
           />
