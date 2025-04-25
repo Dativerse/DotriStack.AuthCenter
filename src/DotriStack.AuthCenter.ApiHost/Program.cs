@@ -1,11 +1,9 @@
 using DotriStack.AuthCenter.ApiHost.OptionsSetup;
 using DotriStack.AuthCenter.Application.Behaviors;
-using DotriStack.AuthCenter.Domain.Repositories;
 using DotriStack.AuthCenter.Infrastructure.BackgroundJobs;
 using DotriStack.AuthCenter.Infrastructure.Idempotence;
 using DotriStack.AuthCenter.Repository;
 using DotriStack.AuthCenter.Repository.Interceptors;
-using DotriStack.AuthCenter.Repository.Repositories;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +47,14 @@ builder.Services.AddValidatorsFromAssembly(
 string connectionString = builder.Configuration.GetConnectionString("Database")!;
 
 builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
+builder.Services.AddQuartz(configure =>
+{
+    var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
+
+    configure
+        .AddJob<ProcessOutboxMessagesJob>(jobKey)
+        .AddTrigger(trigger => trigger.ForJob(jobKey).WithSimpleSchedule(schedule => schedule.WithIntervalInSeconds(100).RepeatForever()));
+});
 
 builder.Services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
 
@@ -58,7 +64,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(
         optionsBuilder.UseNpgsql(connectionString);
     });
 
-// Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;

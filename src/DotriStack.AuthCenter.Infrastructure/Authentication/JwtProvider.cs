@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DotriStack.AuthCenter.Infrastructure.Authentication;
 
-internal sealed class JwtProvider : IJwtProvider
+public sealed class JwtProvider : IJwtProvider
 {
     private readonly JwtOptions _options;
 
@@ -17,12 +17,12 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public string Generate(Member member)
+    public string Generate(ApplicationUser user)
     {
         var claims = new Claim[]
         {
-            new(JwtRegisteredClaimNames.Sub, member.Id.ToString()),
-            new(JwtRegisteredClaimNames.Email, member.Email.Value)
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Email!)
         };
 
         var signingCredentials = new SigningCredentials(

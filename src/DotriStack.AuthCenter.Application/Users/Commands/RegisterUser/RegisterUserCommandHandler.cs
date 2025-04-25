@@ -1,8 +1,5 @@
 using DotriStack.AuthCenter.Domain.Entities;
-using DotriStack.AuthCenter.Domain.Errors;
-using DotriStack.AuthCenter.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace DotriStack.AuthCenter.Application.Users.Commands.RegisterUser;
 
@@ -29,7 +26,7 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
 
         if (!result.Succeeded)
         {
-            return Result.Failure<Guid>(DomainErrors.User.RegistrationFailed(result.Errors));
+            return Result.Failure<Guid>(RegistrationFailed(result.Errors));
         }
 
         return Result.Success(user.Id);

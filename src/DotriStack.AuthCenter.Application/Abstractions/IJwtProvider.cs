@@ -4,5 +4,5 @@ namespace DotriStack.AuthCenter.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    string Generate(Member member);
+    string Generate(ApplicationUser user);
 }

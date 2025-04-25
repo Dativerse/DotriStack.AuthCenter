@@ -1,21 +1,21 @@
-﻿using DotriStack.AuthCenter.Domain.Shared;
+﻿using DotriStack.AuthCenter.Domain.Primitives;
 
 namespace DotriStack.AuthCenter.Domain.Errors;
 
 public static class DomainErrors
 {
-    public static class Member
+    public static class User
     {
-        public static readonly Error EmailAlreadyInUse = new(
-            "Member.EmailAlreadyInUse",
+        public static Error EmailAlreadyInUse => new(
+            "User.EmailAlreadyInUse",
             "The specified email is already in use");
 
-        public static readonly Func<Guid, Error> NotFound = id => new Error(
-            "Member.NotFound",
-            $"The member with the identifier {id} was not found.");
+        public static Error NotFound(Guid id) => new(
+            "User.NotFound",
+            $"The user with the identifier {id} was not found.");
 
-        public static readonly Error InvalidCredentials = new(
-            "Member.InvalidCredentials",
+        public static Error InvalidCredentials => new(
+            "User.InvalidCredentials",
             "The provided credentials are invalid");
     }
 
