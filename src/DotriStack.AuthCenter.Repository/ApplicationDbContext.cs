@@ -1,6 +1,7 @@
 ﻿using DotriStack.AuthCenter.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace DotriStack.AuthCenter.Repository;
 
@@ -23,5 +24,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.CreatedAt).IsRequired();
             entity.Property(e => e.IsActive).IsRequired();
         });
+
+        // Apply configurations from the current assembly
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

@@ -17,9 +17,6 @@ using DotriStack.AuthCenter.Domain.Entities;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-// builder.Services.Decorate<IMemberRepository, CachedMemberRepository>();
-
 builder.Services.AddStackExchangeRedisCache(redisOptions =>
 {
     string connection = builder.Configuration
