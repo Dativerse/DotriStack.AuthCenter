@@ -1,6 +1,7 @@
 using DotriStack.AuthCenter.Application.Abstractions.Messaging;
 using DotriStack.AuthCenter.Domain.Entities;
 using DotriStack.AuthCenter.Domain.Errors;
+using DotriStack.AuthCenter.Domain.Shared;
 using Microsoft.AspNetCore.Identity;
 
 namespace DotriStack.AuthCenter.Application.Users.Commands.UpdateUser;

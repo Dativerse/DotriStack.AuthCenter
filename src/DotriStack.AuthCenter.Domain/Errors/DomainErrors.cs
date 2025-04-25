@@ -1,4 +1,6 @@
-﻿using DotriStack.AuthCenter.Domain.Primitives;
+﻿using System.Text.Json;
+using DotriStack.AuthCenter.Domain.Shared;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotriStack.AuthCenter.Domain.Errors;
 
@@ -10,6 +12,10 @@ public static class DomainErrors
             "User.EmailAlreadyInUse",
             "The specified email is already in use");
 
+        public static Error RegistrationFailed(IEnumerable<IdentityError> err) => new(
+            "User.RegistrationFailed",
+            JsonSerializer.Serialize(err));
+
         public static Error NotFound(Guid id) => new(
             "User.NotFound",
             $"The user with the identifier {id} was not found.");
@@ -17,25 +23,6 @@ public static class DomainErrors
         public static Error InvalidCredentials => new(
             "User.InvalidCredentials",
             "The provided credentials are invalid");
-    }
-
-    public static class Gathering
-    {
-        public static readonly Func<Guid, Error> NotFound = id => new Error(
-            "Gathering.NotFound",
-            $"The gathering with the identifier {id} was not found.");
-
-        public static readonly Error InvitingCreator = new(
-            "Gathering.InvitingCreator",
-            "Can't send invitation to the gathering creator");
-
-        public static readonly Error AlreadyPassed = new(
-            "Gathering.AlreadyPassed",
-            "Can't send invitation for gathering in the past");
-
-        public static readonly Error Expired = new(
-            "Gathering.Expired",
-            "Can't accept invitation for expired gathering");
     }
 
     public static class Email
