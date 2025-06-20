@@ -11,4 +11,10 @@
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DomainEvents\" />
+    <Folder Include="Shared\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
 </Project>

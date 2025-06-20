@@ -25,6 +25,8 @@
 	
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Interceptors\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

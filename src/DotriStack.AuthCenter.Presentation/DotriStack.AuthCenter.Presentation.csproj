@@ -13,5 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\DotriStack.AuthCenter.Application\DotriStack.AuthCenter.Application.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
 
 </Project>
